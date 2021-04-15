@@ -1,6 +1,8 @@
 # EncrypIT
 This program was created in an attempt to simplify the use of Encryption File System (EFS) for the everyday user. This application can quickly and easily encrypt a file or directory using NTFS file encryption or EFS. The instructions are simple.
 
+__COMING SOONG:__ In the near future I will attempt to add a simple way to modify EFS users who have permissions to the soon to be encrypted file.
+
 ### Usage Instructions
 1. Open the application
 2. Drag and Drop a file or folder from File Explorer into the white area of the application.
