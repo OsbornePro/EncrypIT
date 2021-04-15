@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncrypIT", "EncrypIT\EncrypIT.csproj", "{9B73F4D3-A70E-4251-BF6A-C88C04B2CD95}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9B73F4D3-A70E-4251-BF6A-C88C04B2CD95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B73F4D3-A70E-4251-BF6A-C88C04B2CD95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B73F4D3-A70E-4251-BF6A-C88C04B2CD95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B73F4D3-A70E-4251-BF6A-C88C04B2CD95}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C65CB001-3D9C-4536-93A2-D18438E9DA5D}
+	EndGlobalSection
+EndGlobal

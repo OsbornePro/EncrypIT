@@ -1,0 +1,9 @@
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\bin\Release\EncrypIT.exe.config
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\bin\Release\EncrypIT.exe
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\bin\Release\EncrypIT.pdb
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.Form1.resources
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.Properties.Resources.resources
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.csproj.GenerateResource.cache
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.csproj.CoreCompileInputs.cache
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.exe
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.pdb
