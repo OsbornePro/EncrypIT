@@ -7,3 +7,13 @@ C:\Users\rob.osborne\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.Propertie
 C:\Users\rob.osborne\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.csproj.GenerateResource.cache
 C:\Users\rob.osborne\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.exe
 C:\Users\rob.osborne\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.pdb
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\bin\Debug\EncrypIT.exe.config
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\bin\Debug\EncrypIT.exe
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\bin\Debug\EncrypIT.pdb
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.csprojAssemblyReference.cache
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.Form1.resources
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.Properties.Resources.resources
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.csproj.GenerateResource.cache
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.csproj.CoreCompileInputs.cache
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.exe
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Debug\EncrypIT.pdb

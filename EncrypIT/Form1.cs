@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Collections;
 using System.Windows.Forms;
+using System.Security.Cryptography.X509Certificates;
 
 namespace EncrypIT
 {
@@ -11,7 +14,6 @@ namespace EncrypIT
         {
             InitializeComponent();
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -24,7 +26,6 @@ namespace EncrypIT
 
                 e.Effect = DragDropEffects.None;
         }
-
         private void TextBox1_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = e.Data.GetData(DataFormats.FileDrop) as string[]; // get all files droppeds  
@@ -39,7 +40,6 @@ namespace EncrypIT
             else
                 e.Effect = DragDropEffects.None;
         }
-
         private void Button1_Click(object sender, EventArgs e)
         {
             string strValue = textBox1.Text;
@@ -92,11 +92,88 @@ namespace EncrypIT
             }  // End Else If
             label1.Text = $"Completed decryption of {strValue}";
         }
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            string certTemplateName = "Basic EFS"; // First certificate template search looks for the Basic EFS template before failing over to key usage
+            int keyUsage = 32; //Key Encipherment value 32 means the key can be used for encryption
+
+            // Defines the file name of the pfx file that will be saved/created
+            string saveCertificate = "efs-backup.pfx";
+
+            // Defines the directory to save the backup EFS certificate. Default is the user profile directory C:\Users\username
+            string savePath = Environment.GetEnvironmentVariable("USERPROFILE");
+
+            // Generating a password to protect the private key
+            int passLength = 20;
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 <= passLength--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            string myPassword = res.ToString();
+
+
+            // Define certificate and store to look in
+            X509Store storeLocation = new X509Store("My", StoreLocation.CurrentUser);
+
+            // Get EFS Certificate
+            storeLocation.Open(OpenFlags.ReadWrite);
+            IEnumerable certs = storeLocation.Certificates.Find(X509FindType.FindByTemplateName, certTemplateName, true);
+            X509Certificate certTemplate = certs.OfType<X509Certificate>().FirstOrDefault();
+            
+
+            // If no certificate has been asssigned for the defined template or the wrong template is specified you will receive this message
+            if (certTemplate is null)
+            {
+                label1.Text = $"No certificates could be found be found with a certiticate template name of {certTemplateName}. Attempting to obtain a certificate with a keyUsage value of 32.";
+                IEnumerable cer = storeLocation.Certificates.Find(X509FindType.FindByKeyUsage, keyUsage, true);
+                X509Certificate cerTemplate = cer.OfType<X509Certificate>().FirstOrDefault();
+
+                // Export certificate to object
+                byte[] certData = cerTemplate.Export(X509ContentType.Pfx, myPassword);
+
+                // Save certificate to file
+                File.WriteAllBytes($"{savePath}\\{saveCertificate}", certData);
+
+                if (File.Exists($"{savePath}\\{saveCertificate}"))
+                {
+                    // Inform user of save location
+                    label1.Text = $"Backup of your key is saved too {savePath}\\{saveCertificate}. \nThe password for your backup key is {myPassword}. The password is copied to your clipboard and can be pasted. \nDO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
+                    Clipboard.SetText(myPassword);
+                }
+                else if (!File.Exists($"{savePath}\\{saveCertificate}"))
+                {
+                    // Display the value to the console.
+                    label1.Text = $"Unable to save certificate to {savePath}\\{saveCertificate}. Ensure you have an EFS certificate";
+                }
+            }
+            else
+            {
+                // Export certificate to object
+                byte[] certData = certTemplate.Export(X509ContentType.Pfx, myPassword);
+
+                // Save certificate to file
+                File.WriteAllBytes($"{savePath}\\{saveCertificate}", certData);
+
+                if (File.Exists($"{savePath}\\{saveCertificate}"))
+                {
+                    // Inform user of save location
+                    label1.Text = $"Backup of your key is saved too {savePath}\\{saveCertificate}. \nThe password for your backup key is {myPassword}. The password is copied to your clipboard and can be pasted. \nDO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
+                    Clipboard.SetText(myPassword);
+                }
+                else if (!File.Exists($"{savePath}\\{saveCertificate}"))
+                {
+                    // Display the value to the console.
+                    label1.Text = $"Unable to save certificate to {savePath}\\{saveCertificate}. Ensure you have the appropriate permissions to save your backup here";
+                }
+            }
+        }
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
-
         private void TextBox2_TextChanged(object sender, EventArgs e)
         {
 

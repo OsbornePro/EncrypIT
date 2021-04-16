@@ -7,3 +7,4 @@ C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.csproj.Genera
 C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.csproj.CoreCompileInputs.cache
 C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.exe
 C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.pdb
+C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.csprojAssemblyReference.cache
