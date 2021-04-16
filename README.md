@@ -18,10 +18,12 @@ The file you defined is now decrypted and can be accessed by anyone with appropr
 ### How To Backup an EFS Certificate
 1. Open the application
 2. Click the "_Backup Key_" button
-The "__Status Information__" section of the application will display the following info to you as well.
-Your EFS certificate was saved to C:\\Users\\<your username>\\efs-backup.pfx. This was done to prevent accidental upload to a OneDrive cloud.
+
+The "__Status Information__" section of the application will display the following information to you as well.
+Your EFS certificate was saved to C:\\Users\\your username\\efs-backup.pfx. This was done to prevent accidental upload to a OneDrive cloud ensuring the EFS certificate stays on the local device.
 A random 20 character password was set containing numbers, uppercase letters, and lowercase letters.
-The password value is automatically copied directly to your clipboard. Be sure to save the password to a Password Manager to ensure it does not become lost.
-__NOTE:__ This application discovers the EFS certificate used based on first searching for a template with the name "Basic EFS" in the user's certificate store. If no certificate is found it next looks for a Key Usage value of 32 in the users local certificate store. If you wish to define a different certificate template name to search for, modify __line 97__'s "__certTemplateName variable__" in the file "__Form1.cs__".
+The password value is automatically copied directly to your clipboard. Be sure to save the password to a Password Manager to ensure it does not become lost. <br>
+<br>
+__NOTE:__ This application discovers the EFS certificate used based on first searching for a template with the name "Basic EFS" in the user's certificate store. If no certificate is found, it next looks for a "Key Usage" value of 32 in the users local certificate store. If you wish to define a different certificate template name to search for, modify __line 97__'s "__certTemplateName variable__" in the file "__Form1.cs__".
 
 ![EncrypIT](https://github.com/OsbornePro/EncrypIT/raw/main/EncrypIT/EncrypIT.png)
