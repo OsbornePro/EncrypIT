@@ -1,7 +1,7 @@
 # EncrypIT
 This program was created in an attempt to simplify the use of Encryption File System (EFS) for the everyday user. This application will allow a user to quickly and easily backup their EFS certificate to a PFX file. The application can also quickly and easily encrypt a file or directory using Encrypting File System (EFS). The instructions are simple.
 
-__COMING SOONG:__ In the near future I will attempt to add a simple way to modify EFS users who have permissions to the soon to be encrypted file.
+__COMING SOON:__ In the future I will attempt to add a simple way to modify EFS users who have permissions to the soon to be encrypted file.
 
 ### How To Encrypt a File or Directory
 1. Open the application
