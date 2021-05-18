@@ -11,7 +11,7 @@ __RESOURCE:__ [https://docs.microsoft.com/en-us/previous-versions/windows/it-pro
 
 __COMING SOON:__ In the future I will attempt to add a simple way to modify EFS users who have permissions to the soon to be encrypted file.
 
-To help set up EFS I added a simple script to use that will enable Kerberos Delegation on enabled devices in your domain environment
+To help set up EFS I added a simple script to use that will enable Kerberos Delegation on enabled devices in your domain environment<br>
 __FILE:__ [TrustComputersForDelegation.ps1](https://github.com/OsbornePro/EncrypIT/blob/main/TrustComputersForDelegation.ps1)
 
 ### How To Encrypt a File or Directory
