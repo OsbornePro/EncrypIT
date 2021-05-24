@@ -1,7 +1,8 @@
-# In order for EFS to work on Network Shares the devices need to be trusted for delegation. More info at the link below
+# In order for EFS to work on Network Shares the server(s) hosting the shares need to be trusted for delegation. More info at the link below
 # RESOURCE: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-xp/bb457116(v=technet.10)?redirectedfrom=MSDN
 #
 # This is a simple script for setting up devices to be trusted for delegation with Kerberos delegation for devices in a domain environment
+# This is just an example of how to collect computers for AD if you need to do that for whatever reason
 
 $CutOffDate = (Get-Date).AddDays(-60)
 
