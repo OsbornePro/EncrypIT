@@ -229,9 +229,9 @@ namespace EncrypIT
                 {
                     label1.Text = $"{strValue} directory location verified";
 
-                    ProcessStartInfo processtartinfo = new ProcessStartInfo
+                    ProcessStartInfo proces1sstartinfo = new ProcessStartInfo
                     {
-                        Arguments = $"/adduser /user:\"{userValue}\" /S:{strValue} /B /H",
+                        Arguments = $"/adduser /user:\"{userValue}\" /S:\"{strValue}\" /B /H",
                         WindowStyle = ProcessWindowStyle.Hidden,
                         FileName = "C:\\Windows\\System32\\cipher.exe",
                         RedirectStandardOutput = true,
@@ -240,7 +240,7 @@ namespace EncrypIT
 
                     label1.Text = $"Please wait... Verifying {userValue} can be granted access";
 
-                    using (var process = Process.Start(processtartinfo))
+                    using (var process = Process.Start(proces1sstartinfo))
                     {
                         var standardOutput = new StringBuilder();
 
@@ -269,18 +269,18 @@ namespace EncrypIT
 
             if (File.Exists(strValue))
             {
-                label1.Text = $"{strValue} file location verified. Decrypting file...";
+                label1.Text = $"{strValue} file location verified";
 
                 ProcessStartInfo processtartinfo = new ProcessStartInfo
                 {
-                    Arguments = $"/removeuser /user:\"{userValue}\" /B /H \"{strValue}\"",
+                    Arguments = $"-Command \"$Thumbprint = ((cipher /C '{strValue}' | Select-String -Pattern '{userValue}' -Context 1,2 | findstr Certificate` thumbprint).Trim()).Replace(\'Certificate thumbprint: \',\'\'); cipher /removeuser '{userValue}' /certhash:$Thumbprint /B /H '{strValue}'\"",
                     WindowStyle = ProcessWindowStyle.Hidden,
-                    FileName = "C:\\Windows\\System32\\cipher.exe",
+                    FileName = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
                 };
 
-                label1.Text = $"Please wait... Verifying {strValue} can be granted access";
+                label1.Text = $"Please wait... Verifying {strValue} can have access removed. Thumbprint is";
 
                 using (var process = Process.Start(processtartinfo))
                 {
@@ -301,13 +301,13 @@ namespace EncrypIT
 
                 if (Directory.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory location verified. Decrypting folder...";
+                    label1.Text = $"{strValue} directory location verified";
 
                     ProcessStartInfo processtartinfo = new ProcessStartInfo
                     {
-                        Arguments = $"/removeuser /user:\"{userValue}\" /B /H \"{strValue}\"",
+                        Arguments = $"-Command \"$Thumbprint = ((cipher /C '{strValue}' | Select-String -Pattern '{userValue}' -Context 1,2 | findstr Certificate` thumbprint).Trim()).Replace(\'Certificate thumbprint: \',\'\'); cipher /removeuser '{userValue}' /certhash:$Thumbprint /S:'{strValue}' /B /H\"",
                         WindowStyle = ProcessWindowStyle.Hidden,
-                        FileName = "C:\\Windows\\System32\\cipher.exe",
+                        FileName = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                         RedirectStandardOutput = true,
                         UseShellExecute = false,
                     };
@@ -345,7 +345,7 @@ namespace EncrypIT
 
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
+        private void TextBox3_TextChanged(object sender, EventArgs e)
         {
 
         }
