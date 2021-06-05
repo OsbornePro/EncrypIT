@@ -23,25 +23,26 @@ The file is now encrypted using EFS and can only be accessed by the user who per
 ### How To Decrypt a File or Directory
 1. Open the application
 2. Drag and Drop a file or folder from File Explorer into the white area of the application.
-3. Click the "_Decrypt_" button
+3. Click the "_Decrypt_" button <br>
 The file you defined is now decrypted and can be accessed by anyone with appropriate NTFS permissions.
-![Decypt Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/Decrypt.png)
+![Decrypt Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/Decrypt.png)
 
 ### How to Grant a Domain User Access
 1. Open the application
 2. Drag and Drop a file or folder from File Explorer into the white area of the application.
 3. Enter a persons username into the smaller text box
-4. Click the "Grant Access" button
+4. Click the "Grant Access" button <br>
 ![Grant Access Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/GrantAccess.png)
 
 ### How to Revoke a Domain Users Access
 1. Open the application
 2. Drag and Drop a file or folder from File Explorer into the white area of the application.
 3. Enter a persons username into the smaller text box
-4. Click the "Revoke Access" button
-![Revoke Access Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/RevokeAccess.png)
-__NOTE:__ The simplest way I found to remove access from a file was through the use of the cipher command. The cipher command requires a certificate thumbprint in order to remove someones access from a file. In order to obtain that value I had to use some PowerShell cmdlets which makes this process a little bit slower. 
+4. Click the "Revoke Access" button <br>
+![Revoke Access Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/RevokeAccess.png) <br>
+__NOTE:__ The simplest way I found to remove access from a file was through the use of the cipher command. The cipher command requires a certificate thumbprint in order to remove someones access from a file. In order to obtain that value I had to use some PowerShell cmdlets which makes this process a little bit slower. <br>
 <br>
+
 ### How To Backup an EFS Certificate
 1. Open the application
 2. Click the "_Backup Key_" button
@@ -50,9 +51,9 @@ __NOTE:__ The simplest way I found to remove access from a file was through the 
 The "__Status Information__" section of the application will display the following information to you as well.
 Your EFS certificate was saved to C:\\Users\\your username\\efs-backup.pfx. This was done to prevent accidental upload to a OneDrive cloud ensuring the EFS certificate stays on the local device.
 #### AUTO GENERATED PASSWORD THAT PROTECTS THE PRIVATE KEY
-A random 20 character password was set containing numbers, uppercase letters, and lowercase letters.
+A random 20 character password was set containing numbers, uppercase letters, and lowercase letters. <br>
 The password value is automatically copied directly to your clipboard. Be sure to save the password to a Password Manager to ensure it does not become lost. <br>
 <br>
-__NOTE:__ This application discovers the EFS certificate used based on first searching for a template with the name "Basic EFS" in the user's certificate store. If no certificate is found, it next looks for a "Key Usage" value of 32 in the users local certificate store. If you wish to define a different certificate template name to search for, modify __line 97__'s "__certTemplateName variable__" in the file "__Form1.cs__".
+__NOTE:__ This application discovers the EFS certificate used based on first searching for a template with the name "Basic EFS" in the user's certificate store. If no certificate is found, it next looks for a "Key Usage" value of 32 in the users local certificate store. If you wish to define a different certificate template name to search for, modify __line 97__'s "__certTemplateName variable__" in the file "__Form1.cs__". <br>
 
 ![EncrypIT](https://github.com/OsbornePro/EncrypIT/raw/main/EncrypIT/EncrypIT.png)
