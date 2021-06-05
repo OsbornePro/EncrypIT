@@ -5,19 +5,26 @@ using System.Text;
 using System.Collections;
 using System.Windows.Forms;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
 
 namespace EncrypIT
 {
     public partial class Form1 : Form
     {
+        private string strValue;
+        private string userValue;
+
         public Form1()
         {
             InitializeComponent();
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
+
+        // Drag Enter
         private void TextBox1_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -26,6 +33,8 @@ namespace EncrypIT
 
                 e.Effect = DragDropEffects.None;
         }
+
+        // Drag Drop
         private void TextBox1_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = e.Data.GetData(DataFormats.FileDrop) as string[]; // get all files droppeds  
@@ -33,6 +42,7 @@ namespace EncrypIT
                 textBox1.Text = files.First(); //select the first one  
         }
 
+        // DragOver
         private void TextBox1_DragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -40,6 +50,8 @@ namespace EncrypIT
             else
                 e.Effect = DragDropEffects.None;
         }
+
+        // Encrypt File or Folder
         private void Button1_Click(object sender, EventArgs e)
         {
             string strValue = textBox1.Text;
@@ -66,6 +78,8 @@ namespace EncrypIT
             }  // End Else If
             label1.Text = $"Completed encryption of {strValue}";
         }
+
+        // Decrypt File or Folder
         private void Button2_Click(object sender, EventArgs e)
         {
             string strValue = textBox1.Text;
@@ -92,6 +106,8 @@ namespace EncrypIT
             }  // End Else If
             label1.Text = $"Completed decryption of {strValue}";
         }
+
+        // Backup Certificate Key
         private void Button3_Click(object sender, EventArgs e)
         {
             string certTemplateName = "Basic EFS"; // First certificate template search looks for the Basic EFS template before failing over to key usage
@@ -170,11 +186,166 @@ namespace EncrypIT
                 }
             }
         }
+
+        // Add Access
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            strValue = textBox1.Text;
+            userValue = textBox3.Text;
+
+            if (File.Exists(strValue))
+            {
+                label1.Text = $"{strValue} file location verified";
+
+                ProcessStartInfo processtartinfo = new ProcessStartInfo
+                {
+                    Arguments = $"/adduser /user:\"{userValue}\" /B /H \"{strValue}\"",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    FileName = "C:\\Windows\\System32\\cipher.exe",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                };
+
+                label1.Text = $"Please wait... Verifying {userValue} can be granted access";
+
+                using (var process = Process.Start(processtartinfo))
+                {
+                    var standardOutput = new StringBuilder();
+
+                    while (!process.HasExited)
+                    {
+                        label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                    }  // End while
+
+                    label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+
+                }  // End using
+            }  // End If
+            else if (!File.Exists(strValue))
+            {
+                label1.Text = $"{strValue} file does NOT exist";
+
+                if (Directory.Exists(strValue))
+                {
+                    label1.Text = $"{strValue} directory location verified";
+
+                    ProcessStartInfo processtartinfo = new ProcessStartInfo
+                    {
+                        Arguments = $"/adduser /user:\"{userValue}\" /S:{strValue} /B /H",
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        FileName = "C:\\Windows\\System32\\cipher.exe",
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                    };
+
+                    label1.Text = $"Please wait... Verifying {userValue} can be granted access";
+
+                    using (var process = Process.Start(processtartinfo))
+                    {
+                        var standardOutput = new StringBuilder();
+
+                        while (!process.HasExited)
+                        {
+                            label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                        }  // End while
+
+                        label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+
+                    }  // End using
+                }  // End If
+                else if (!Directory.Exists(strValue))
+                {
+                    label1.Text = $"{strValue} directory does NOT exist.";
+                }  // End Else
+
+            }  // End Else If
+        }
+
+        // Remove Access
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            strValue = textBox1.Text;
+            userValue = textBox3.Text;
+
+            if (File.Exists(strValue))
+            {
+                label1.Text = $"{strValue} file location verified. Decrypting file...";
+
+                ProcessStartInfo processtartinfo = new ProcessStartInfo
+                {
+                    Arguments = $"/removeuser /user:\"{userValue}\" /B /H \"{strValue}\"",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    FileName = "C:\\Windows\\System32\\cipher.exe",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                };
+
+                label1.Text = $"Please wait... Verifying {strValue} can be granted access";
+
+                using (var process = Process.Start(processtartinfo))
+                {
+                    var standardOutput = new StringBuilder();
+
+                    while (!process.HasExited)
+                    {
+                        label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                    }  // End while
+
+                    label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+
+                }  // End using
+            }  // End If
+            else if (!File.Exists(strValue))
+            {
+                label1.Text = $"{strValue} file does NOT exist";
+
+                if (Directory.Exists(strValue))
+                {
+                    label1.Text = $"{strValue} directory location verified. Decrypting folder...";
+
+                    ProcessStartInfo processtartinfo = new ProcessStartInfo
+                    {
+                        Arguments = $"/removeuser /user:\"{userValue}\" /B /H \"{strValue}\"",
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        FileName = "C:\\Windows\\System32\\cipher.exe",
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                    };
+
+                    label1.Text = $"Please wait... Verifying {strValue} can be granted access";
+
+                    using (var process = Process.Start(processtartinfo))
+                    {
+                        var standardOutput = new StringBuilder();
+
+                        while (!process.HasExited)
+                        {
+                            label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                        }  // End while
+
+                        label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+
+                    }  // End using
+                }  // End If
+                else if (!Directory.Exists(strValue))
+                {
+                    label1.Text = $"{strValue} directory does NOT exist.";
+                }  // End Else
+
+            }  // End Else If
+        }
+
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
+
         private void TextBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
         }
