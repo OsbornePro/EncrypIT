@@ -57,13 +57,13 @@
     <ManifestCertificateThumbprint>05A05CE246F70EF4B375FA16508A6BF73AD2E5F6</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestTimestampUrl>http://tsa.starfieldtech.com</ManifestTimestampUrl>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>OPCodeSigningCert.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>OsborneProSignAssembly.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -100,6 +100,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="OPCodeSigningCert.pfx" />
+    <None Include="OsborneProSignAssembly.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
