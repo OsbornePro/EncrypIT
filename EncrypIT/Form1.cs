@@ -56,8 +56,9 @@ namespace EncrypIT
 
             if (File.Exists(strValue))
             {
-                label1.Text = $"{strValue} file location verified. Encrypting file...";
+                label1.Text = $"{strValue} file location verified. Executing file encryption";
                 File.Encrypt(textBox1.Text);
+                label1.Text = $"Completed encryption of {strValue}";
             }  // End If
             else if (!File.Exists(strValue))
             {
@@ -65,8 +66,9 @@ namespace EncrypIT
 
                 if (Directory.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory location verified. Encrypting folder...";
+                    label1.Text = $"{strValue} directory location verified. Executing folder encryption";
                     File.Encrypt(textBox1.Text);
+                    label1.Text = $"Completed encryption of {strValue}";
                 }  // End If
                 else if (!Directory.Exists(strValue))
                 {
@@ -74,7 +76,6 @@ namespace EncrypIT
                 }  // End Else
 
             }  // End Else If
-            label1.Text = $"Completed encryption of {strValue}";
         }
 
         // Decrypt File or Folder
@@ -84,8 +85,9 @@ namespace EncrypIT
 
             if (File.Exists(strValue))
             {
-                label1.Text = $"{strValue} file location verified. Decrypting file...";
+                label1.Text = $"{strValue} file location verified. Executing file decryption";
                 File.Decrypt(strValue);
+                label1.Text = $"Completed decryption of {strValue}";
             }  // End If
             else if (!File.Exists(strValue))
             {
@@ -93,16 +95,15 @@ namespace EncrypIT
 
                 if (Directory.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory location verified. Decrypting folder...";
+                    label1.Text = $"{strValue} directory location verified. Executing folder decryption";
                     File.Decrypt(strValue);
+                    label1.Text = $"Completed decryption of {strValue}";
                 }  // End If
                 else if (!Directory.Exists(strValue))
                 {
                     label1.Text = $"{strValue} directory does NOT exist.";
                 }  // End Else
-
             }  // End Else If
-            label1.Text = $"Completed decryption of {strValue}";
         }
 
         // Backup Certificate Key
