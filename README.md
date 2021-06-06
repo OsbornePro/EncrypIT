@@ -1,7 +1,15 @@
 # EncrypIT
 This program was created in an attempt to simplify the use of Encryption File System (EFS) for the everyday user. This application will allow a user to quickly and easily backup their EFS certificate to a PFX file. The application can also quickly and easily encrypt a file or directory using Encrypting File System (EFS) while also allowing the granting of access to other users in the domain. The instructions are simple which I have included in the topics below. <br>
 <br>
-There are a couple limitations to know when using EFS. 
+__IDEAS FOR FURTURE RELEASES__
+- Allow multiple files to be drag and dropped to encrypt more than one file at once
+- Allow multiple usernames to be defined to add or remove access for more than one person at a time
+- Button to display information on an encrypted file
+- Add a button to display current certificate thumbprint or have it appear by default in the program
+- Add a button to update a users file encryption keys to the most current one
+
+
+There are a couple limitations to know when using EFS.
 1. You are only able to grant EFS permissions to a user, NOT groups. This is because public-private key pairs are used for encryption.
 2. When encryption is set for a folder, EFS automatically encrypts all new files created in the folder and all files copied or moved into the folder. This means EFS file sharing can be applied only to individual EFS-encrypted files, and not to EFS-encrypted NTFS folders.
 3. Using file shares for remote EFS operations requires a Windows 2000 or later domain environment because EFS must impersonate the user by using Kerberos delegation to encrypt or decrypt files for the user. This requires that the user must be logged on with a domain account that can be delegated and the computer must be a domain member in a domain that uses Kerberos authentication and the computer must be trusted for delegation.
