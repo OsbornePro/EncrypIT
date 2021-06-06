@@ -8,3 +8,13 @@ C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.csproj.CoreCo
 C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.exe
 C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.pdb
 C:\Users\robos\source\repos\EncrypIT\EncrypIT\obj\Release\EncrypIT.csprojAssemblyReference.cache
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\bin\Release\EncrypIT.exe.config
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\bin\Release\EncrypIT.exe
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\bin\Release\EncrypIT.pdb
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.csprojAssemblyReference.cache
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.Form1.resources
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.Properties.Resources.resources
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.csproj.GenerateResource.cache
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.csproj.CoreCompileInputs.cache
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.exe
+C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.pdb

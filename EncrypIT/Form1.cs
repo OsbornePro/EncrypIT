@@ -11,9 +11,6 @@ namespace EncrypIT
 {
     public partial class Form1 : Form
     {
-        private string strValue;
-        private string userValue;
-
         public Form1()
         {
             InitializeComponent();
@@ -37,8 +34,9 @@ namespace EncrypIT
         // Drag Drop
         private void TextBox1_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = e.Data.GetData(DataFormats.FileDrop) as string[]; // get all files droppeds  
-            if (files != null && files.Any())
+            // get all files droppeds
+
+            if (e.Data.GetData(DataFormats.FileDrop) is string[] files && files.Any())
                 textBox1.Text = files.First(); //select the first one  
         }
 
@@ -190,8 +188,8 @@ namespace EncrypIT
         // Add Access
         private void Button4_Click(object sender, EventArgs e)
         {
-            strValue = textBox1.Text;
-            userValue = textBox3.Text;
+            string strValue = textBox1.Text;
+            string userValue = textBox3.Text;
 
             if (File.Exists(strValue))
             {
@@ -264,8 +262,8 @@ namespace EncrypIT
         // Remove Access
         private void Button5_Click(object sender, EventArgs e)
         {
-            strValue = textBox1.Text;
-            userValue = textBox3.Text;
+            string strValue = textBox1.Text;
+            string userValue = textBox3.Text;
 
             if (File.Exists(strValue))
             {

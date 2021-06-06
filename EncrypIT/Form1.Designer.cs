@@ -134,7 +134,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(319, 45);
             this.textBox3.TabIndex = 7;
-            this.textBox3.Text = "email.here@domain.com";
+            this.textBox3.Text = "username@domain.com";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox3.TextChanged += new System.EventHandler(this.TextBox3_TextChanged);
             // 
