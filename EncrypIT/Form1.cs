@@ -58,7 +58,7 @@ namespace EncrypIT
             {
                 label1.Text = $"{strValue} file location verified. Executing file encryption";
                 File.Encrypt(textBox1.Text);
-                label1.Text = $"Completed encryption of {strValue}";
+                label1.Text = $"Completed encryption of file {strValue}";
             }  // End If
             else if (!File.Exists(strValue))
             {
@@ -68,7 +68,7 @@ namespace EncrypIT
                 {
                     label1.Text = $"{strValue} directory location verified. Executing folder encryption";
                     File.Encrypt(textBox1.Text);
-                    label1.Text = $"Completed encryption of {strValue}";
+                    label1.Text = $"Completed encryption of directory {strValue}";
                 }  // End If
                 else if (!Directory.Exists(strValue))
                 {
@@ -87,7 +87,7 @@ namespace EncrypIT
             {
                 label1.Text = $"{strValue} file location verified. Executing file decryption";
                 File.Decrypt(strValue);
-                label1.Text = $"Completed decryption of {strValue}";
+                label1.Text = $"Completed decryption of file {strValue}";
             }  // End If
             else if (!File.Exists(strValue))
             {
@@ -97,7 +97,7 @@ namespace EncrypIT
                 {
                     label1.Text = $"{strValue} directory location verified. Executing folder decryption";
                     File.Decrypt(strValue);
-                    label1.Text = $"Completed decryption of {strValue}";
+                    label1.Text = $"Completed decryption of directory {strValue}";
                 }  // End If
                 else if (!Directory.Exists(strValue))
                 {
