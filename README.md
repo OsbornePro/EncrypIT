@@ -5,11 +5,7 @@ __Availble for download at SourceForge as well__ <br>
 This program was created in an attempt to simplify the use of Encryption File System (EFS) for the everyday user. This application will allow a user to quickly and easily backup their EFS certificate to a PFX file. The application can also quickly and easily encrypt a file or directory using Encrypting File System (EFS) while also allowing the granting of access to other users in the domain. The instructions are simple which I have included in the topics below. <br>
 <br>
 __IDEAS FOR FURTURE RELEASES__
-- Allow multiple files to be drag and dropped to encrypt more than one file at once
-- Allow multiple usernames to be defined to add or remove access for more than one person at a time
-- Button to display information on an encrypted file
-- Add a button to display current certificate thumbprint or have it appear by default in the program
-- Add a button to update a users file encryption keys to the most current one
+Currently I do not have any more ideas for this application. If you have any suggestions feel free to reach out to me at info@osbornepro.com.
 
 
 There are a couple limitations to know when using EFS.
@@ -26,33 +22,39 @@ __FILE:__ [TrustComputersForDelegation.ps1](https://github.com/OsbornePro/Encryp
 
 ### How To Encrypt a File or Directory
 1. Open the application
-2. Drag and Drop a file or folder from File Explorer into the white area of the application.
+2. Drag and Drop a file(s) or folder(s) from File Explorer into the top white area of the application.
 3. Click the "_Encrypt_" button
-The file is now encrypted using EFS and can only be accessed by the user who performed the encryption.
+The file(s) are now encrypted using EFS and can only be accessed by the user who performed the encryption.
 ![Encrypt Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/Encrypt.png)
 
 ### How To Decrypt a File or Directory
 1. Open the application
-2. Drag and Drop a file or folder from File Explorer into the white area of the application.
+2. Drag and Drop a file(s) or folder(s) from File Explorer into the top white area of the application.
 3. Click the "_Decrypt_" button <br>
-The file you defined is now decrypted and can be accessed by anyone with appropriate NTFS permissions.
+The file(s) you defined are now decrypted and can be accessed by anyone with appropriate NTFS permissions.
 ![Decrypt Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/Decrypt.png)
 
 ### How to Grant a Domain User Access
 1. Open the application
-2. Drag and Drop a file or folder from File Explorer into the white area of the application.
-3. Enter a persons username into the smaller text box
+2. Drag and Drop a file(s) or folder(s) from File Explorer into the top white area of the application.
+3. Enter a persons email into the smaller text box. Put each new email address on a new line.
 4. Click the "Grant Access" button <br>
 ![Grant Access Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/GrantAccess.png)
 
 ### How to Revoke a Domain Users Access
 1. Open the application
-2. Drag and Drop a file or folder from File Explorer into the white area of the application.
-3. Enter a persons username into the smaller text box
+2. Drag and Drop a file(s) or folder(s) from File Explorer into the top white area of the application.
+3. Enter a persons username into the smaller text box. Put each new email address on a new line.
 4. Click the "Revoke Access" button <br>
 ![Revoke Access Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/RevokeAccess.png) <br>
-__NOTE:__ The simplest way I found to remove access from a file was through the use of the cipher command. The cipher command requires a certificate thumbprint in order to remove someones access from a file. In order to obtain that value I had to use some PowerShell cmdlets which makes this process a little bit slower. <br>
+__NOTE:__ The simplest way I found to remove access from a file was through the use of the cipher command. The cipher command requires a certificate thumbprint in order to remove someone's access from a file. In order to obtain that value I had to use some PowerShell cmdlets which makes this process a little bit slower and open a new temporary window. <br>
 <br>
+
+## How to view encryption info of a file(s)
+1. Open the application
+2. Drag and Drop a file(s) or folder(s) from File Explorer into the top white area of the application.
+3. Click the "Get Encrypted File Info" button
+![Get File Encryption Information](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/GetInfo.png)
 
 ### How To Backup an EFS Certificate
 1. Open the application
