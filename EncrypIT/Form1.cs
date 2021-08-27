@@ -27,7 +27,6 @@ namespace EncrypIT
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.All;
             else
-
                 e.Effect = DragDropEffects.None;
         }
 
@@ -35,9 +34,17 @@ namespace EncrypIT
         private void TextBox1_DragDrop(object sender, DragEventArgs e)
         {
             // get all files droppeds
-
             if (e.Data.GetData(DataFormats.FileDrop) is string[] files && files.Any())
-                textBox1.Text = files.First(); //select the first one  
+            {
+                textBox1.ResetText();
+                foreach (string filePath in files)
+                {
+                    if (File.Exists(filePath) && filePath != files.Last()) 
+                        textBox1.AppendText(filePath + Environment.NewLine);
+                    else
+                        textBox1.AppendText(filePath);
+                }  // End foreach
+            }  // End if
         }
 
         // DragOver
@@ -52,58 +59,89 @@ namespace EncrypIT
         // Encrypt File or Folder
         private void Button1_Click(object sender, EventArgs e)
         {
-            string strValue = textBox1.Text;
-
-            if (File.Exists(strValue))
+            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            textBox4.Text = "";
+            foreach (string strValue in arrValue)
             {
-                label1.Text = $"{strValue} file location verified. Executing file encryption";
-                File.Encrypt(textBox1.Text);
-                label1.Text = $"Completed encryption of file {strValue}";
-            }  // End If
-            else if (!File.Exists(strValue))
-            {
-                label1.Text = $"{strValue} file does NOT exist";
-
-                if (Directory.Exists(strValue))
+                if (File.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory location verified. Executing folder encryption";
-                    File.Encrypt(textBox1.Text);
-                    label1.Text = $"Completed encryption of directory {strValue}";
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += "File location verified.";
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += "Executing file encryption";
+                    textBox4.AppendText(Environment.NewLine);
+                    File.Encrypt(strValue);
+                    textBox4.Text += $"Completed encryption of file {strValue}";
+                    textBox4.AppendText(Environment.NewLine);
                 }  // End If
-                else if (!Directory.Exists(strValue))
+                else if (!File.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory does NOT exist.";
-                }  // End Else
+                    textBox4.Text += $"{strValue} file does NOT exist";
+                    textBox4.AppendText(Environment.NewLine);
 
-            }  // End Else If
+                    if (Directory.Exists(strValue))
+                    {
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += "Directory location verified.";
+                        textBox4.AppendText(Environment.NewLine); 
+                        textBox4.Text += "Executing folder encryption";
+                        textBox4.AppendText(Environment.NewLine);
+                        File.Encrypt(textBox1.Text);
+                        textBox4.Text += $"Completed encryption of directory {strValue}";
+                        textBox4.AppendText(Environment.NewLine);
+                    }  // End If
+                    else if (!Directory.Exists(strValue))
+                    {
+                        textBox4.Text += $"{strValue} directory does NOT exist.";
+                        textBox4.AppendText(Environment.NewLine);
+                    }  // End Else
+
+                }  // End Else If
+            }  // End ForEach
         }
 
         // Decrypt File or Folder
         private void Button2_Click(object sender, EventArgs e)
         {
-            string strValue = textBox1.Text;
-
-            if (File.Exists(strValue))
+            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            textBox4.Text = "";
+            foreach (string strValue in arrValue)
             {
-                label1.Text = $"{strValue} file location verified. Executing file decryption";
-                File.Decrypt(strValue);
-                label1.Text = $"Completed decryption of file {strValue}";
-            }  // End If
-            else if (!File.Exists(strValue))
-            {
-                label1.Text = $"{strValue} file does NOT exist";
-
-                if (Directory.Exists(strValue))
+                if (File.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory location verified. Executing folder decryption";
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += "File location verified.";
+                    textBox4.AppendText(Environment.NewLine); 
+                    textBox4.Text += "Executing file decryption";
+                    textBox4.AppendText(Environment.NewLine);
                     File.Decrypt(strValue);
-                    label1.Text = $"Completed decryption of directory {strValue}";
-                }  // End If
-                else if (!Directory.Exists(strValue))
+                    textBox4.Text += $"Completed decryption of file {strValue}";
+                    textBox4.AppendText(Environment.NewLine);
+                }  // End if
+                else if (!File.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory does NOT exist.";
-                }  // End Else
-            }  // End Else If
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += $"{strValue} file does NOT exist";
+                    textBox4.AppendText(Environment.NewLine);
+                    if (Directory.Exists(strValue))
+                    {
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += "Directory location verified.";
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += "Executing folder decryption";
+                        textBox4.AppendText(Environment.NewLine);
+                        File.Decrypt(strValue);
+                        textBox4.Text += $"Completed decryption of directory {strValue}";
+                        textBox4.AppendText(Environment.NewLine);
+                    }  // End if
+                    else if (!Directory.Exists(strValue))
+                    {
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += $"{strValue} directory does NOT exist.";
+                        textBox4.AppendText(Environment.NewLine);
+                    }  // End else if
+                }  // End if
+            }  // End foreach
         }
 
         // Backup Certificate Key
@@ -142,7 +180,8 @@ namespace EncrypIT
             // If no certificate has been asssigned for the defined template or the wrong template is specified you will receive this message
             if (certTemplate is null)
             {
-                label1.Text = $"No certificates could be found be found with a certiticate template name of {certTemplateName}. Attempting to obtain a certificate with a keyUsage value of 32.";
+                textBox4.Text += $"No certificates could be found be found with a certiticate template name of {certTemplateName}. Attempting to obtain a certificate with a keyUsage value of 32.";
+                textBox4.AppendText(Environment.NewLine);
                 IEnumerable cer = storeLocation.Certificates.Find(X509FindType.FindByKeyUsage, keyUsage, true);
                 X509Certificate cerTemplate = cer.OfType<X509Certificate>().FirstOrDefault();
 
@@ -155,13 +194,19 @@ namespace EncrypIT
                 if (File.Exists($"{savePath}\\{saveCertificate}"))
                 {
                     // Inform user of save location
-                    label1.Text = $"Backup of your key is saved too {savePath}\\{saveCertificate}. \nThe password for your backup key is {myPassword}. The password is copied to your clipboard and can be pasted. \nDO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
+                    textBox4.Text = $"Backup of your key is saved too {savePath}\\{saveCertificate}.";
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += $"The password for your backup key is {myPassword}. The password is copied to your clipboard and can be pasted.";
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += "DO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
+                    textBox4.AppendText(Environment.NewLine);
                     Clipboard.SetText(myPassword);
                 }
                 else if (!File.Exists($"{savePath}\\{saveCertificate}"))
                 {
                     // Display the value to the console.
-                    label1.Text = $"Unable to save certificate to {savePath}\\{saveCertificate}. Ensure you have an EFS certificate";
+                    textBox4.Text = $"Unable to save certificate to {savePath}\\{saveCertificate}. Ensure you have an EFS certificate";
+                    textBox4.AppendText(Environment.NewLine);
                 }
             }
             else
@@ -175,13 +220,19 @@ namespace EncrypIT
                 if (File.Exists($"{savePath}\\{saveCertificate}"))
                 {
                     // Inform user of save location
-                    label1.Text = $"Backup of your key is saved too {savePath}\\{saveCertificate}. \nThe password for your backup key is {myPassword}. The password is copied to your clipboard and can be pasted. \nDO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
+                    textBox4.Text = $"Backup of your key is saved too {savePath}\\{saveCertificate}.";
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += $"The password for your backup key is {myPassword}. The password is copied to your clipboard and can be pasted.";
+                    textBox4.AppendText(Environment.NewLine); 
+                    textBox4.Text += "DO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
+                    textBox4.AppendText(Environment.NewLine);
                     Clipboard.SetText(myPassword);
                 }
                 else if (!File.Exists($"{savePath}\\{saveCertificate}"))
                 {
                     // Display the value to the console.
-                    label1.Text = $"Unable to save certificate to {savePath}\\{saveCertificate}. Ensure you have the appropriate permissions to save your backup here";
+                    textBox4.Text += $"Unable to save certificate to {savePath}\\{saveCertificate}. Ensure you have the appropriate permissions to save your backup here.";
+                    textBox4.AppendText(Environment.NewLine);
                 }
             }
         }
@@ -189,149 +240,242 @@ namespace EncrypIT
         // Add Access
         private void Button4_Click(object sender, EventArgs e)
         {
-            string strValue = textBox1.Text;
-            string userValue = textBox3.Text;
+            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] userArrValue = textBox3.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
-            if (File.Exists(strValue))
+            foreach (string strValue in arrValue)
             {
-                label1.Text = $"{strValue} file location verified";
-
-                ProcessStartInfo processtartinfo = new ProcessStartInfo
+                if (File.Exists(strValue))
                 {
-                    Arguments = $"/adduser /user:\"{userValue}\" /B /H \"{strValue}\"",
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    FileName = "C:\\Windows\\System32\\cipher.exe",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                };
-
-                label1.Text = $"Please wait... Verifying {userValue} can be granted access";
-
-                using (var process = Process.Start(processtartinfo))
-                {
-                    var standardOutput = new StringBuilder();
-
-                    while (!process.HasExited)
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += "File location verified";
+                    textBox4.AppendText(Environment.NewLine);
+                    foreach (string userValue in userArrValue)
                     {
-                        label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
-                    }  // End while
-
-                    label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
-
-                }  // End using
-            }  // End If
-            else if (!File.Exists(strValue))
-            {
-                label1.Text = $"{strValue} file does NOT exist";
-
-                if (Directory.Exists(strValue))
-                {
-                    label1.Text = $"{strValue} directory location verified";
-
-                    ProcessStartInfo proces1sstartinfo = new ProcessStartInfo
-                    {
-                        Arguments = $"/adduser /user:\"{userValue}\" /S:\"{strValue}\" /B /H",
-                        WindowStyle = ProcessWindowStyle.Hidden,
-                        FileName = "C:\\Windows\\System32\\cipher.exe",
-                        RedirectStandardOutput = true,
-                        UseShellExecute = false,
-                    };
-
-                    label1.Text = $"Please wait... Verifying {userValue} can be granted access";
-
-                    using (var process = Process.Start(proces1sstartinfo))
-                    {
-                        var standardOutput = new StringBuilder();
-
-                        while (!process.HasExited)
+                        ProcessStartInfo processtartinfo = new ProcessStartInfo
                         {
-                            label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
-                        }  // End while
+                            Arguments = $"/adduser /user:\"{userValue}\" /B /H \"{strValue}\"",
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = "C:\\Windows\\System32\\cipher.exe",
+                            RedirectStandardOutput = true,
+                            UseShellExecute = false,
+                        };
 
-                        label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
-
-                    }  // End using
+                        textBox4.Text += $"Please wait...";
+                        textBox4.AppendText(Environment.NewLine); 
+                        textBox4.Text += $"Verifying {userValue} can be granted access";
+                        using (var process = Process.Start(processtartinfo))
+                        {
+                            var standardOutput = new StringBuilder();
+                            while (!process.HasExited)
+                            {
+                                textBox4.Text += standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                            }  // End while
+                        }  // End using
+                    } // End foreach
                 }  // End If
-                else if (!Directory.Exists(strValue))
+                else if (!File.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory does NOT exist.";
-                }  // End Else
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += $"\n{strValue} file does NOT exist";
+                    textBox4.AppendText(Environment.NewLine);
+                    if (Directory.Exists(strValue))
+                    {
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += "Directory location verified";
+                        textBox4.AppendText(Environment.NewLine);
+                        foreach (string userValue in userArrValue)
+                        {
+                            ProcessStartInfo proces1sstartinfo = new ProcessStartInfo
+                            {
+                                Arguments = $"/adduser /user:\"{userValue}\" /S:\"{strValue}\" /B /H",
+                                WindowStyle = ProcessWindowStyle.Hidden,
+                                FileName = "C:\\Windows\\System32\\cipher.exe",
+                                RedirectStandardOutput = true,
+                                UseShellExecute = false,
+                            };
 
-            }  // End Else If
+                            textBox4.Text += $"Please wait...";
+                            textBox4.AppendText(Environment.NewLine); 
+                            textBox4.Text += $"Verifying {userValue} can be granted access";
+                            textBox4.AppendText(Environment.NewLine);
+                            using (var process = Process.Start(proces1sstartinfo))
+                            {
+                                var standardOutput = new StringBuilder();
+
+                                while (!process.HasExited)
+                               {
+                                    textBox4.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                                }  // End while
+                            }  // End using
+                        }  // End foreach
+                    }  // End If
+                    else if (!Directory.Exists(strValue))
+                    {
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += $"{strValue} directory does NOT exist.";
+                        textBox4.AppendText(Environment.NewLine);
+                    }  // End Else
+
+                }  // End Else If
+            }  // End foreach
         }
 
         // Remove Access
         private void Button5_Click(object sender, EventArgs e)
         {
-            string strValue = textBox1.Text;
-            string userValue = textBox3.Text;
+            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] userArrValue = textBox3.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
-            if (File.Exists(strValue))
+            foreach (string strValue in arrValue)
             {
-                label1.Text = $"{strValue} file location verified";
-
-                ProcessStartInfo processtartinfo = new ProcessStartInfo
+                if (File.Exists(strValue))
                 {
-                    Arguments = $"-Command \"$Thumbprint = ((cipher /C '{strValue}' | Select-String -Pattern '{userValue}' -Context 1,2 | findstr Certificate` thumbprint).Trim()).Replace(\'Certificate thumbprint: \',\'\'); cipher /removeuser '{userValue}' /certhash:$Thumbprint /B /H '{strValue}'\"",
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    FileName = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                };
-
-                label1.Text = $"Please wait... Verifying {strValue} can have access removed. Thumbprint is";
-
-                using (var process = Process.Start(processtartinfo))
-                {
-                    var standardOutput = new StringBuilder();
-
-                    while (!process.HasExited)
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text = $"{strValue} file location verified";
+                    textBox4.AppendText(Environment.NewLine);
+                    foreach (string userValue in userArrValue)
                     {
-                        label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
-                    }  // End while
+                        ProcessStartInfo processtartinfo = new ProcessStartInfo
+                        {
+                            Arguments = $"-Command \"$Thumbprint = ((cipher /C '{strValue}' | Select-String -Pattern '{userValue}' -Context 1,2 | findstr Certificate` thumbprint).Trim()).Replace(\'Certificate thumbprint: \',\'\'); cipher /removeuser '{userValue}' /certhash:$Thumbprint /B /H '{strValue}'\"",
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                            RedirectStandardOutput = true,
+                            UseShellExecute = false,
+                        };
 
-                    label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                        textBox4.Text += $"Please wait...";
+                        textBox4.AppendText(Environment.NewLine); 
+                        textBox4.Text += $"Verifying {strValue} can have access removed. Thumbprint is";
+                        textBox4.AppendText(Environment.NewLine);
+                        using (var process = Process.Start(processtartinfo))
+                        {
+                            var standardOutput = new StringBuilder();
+                            while (!process.HasExited)
+                            {
+                                textBox4.Text += standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                            }  // End while
+                        }  // End using
+                    }  // End foreach
+                }  // End if
+                else if (!File.Exists(strValue))
+                {
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text = $"{strValue} file does NOT exist";
+                    textBox4.AppendText(Environment.NewLine);
 
-                }  // End using
-            }  // End If
-            else if (!File.Exists(strValue))
+                    if (Directory.Exists(strValue))
+                    {
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text = "Directory location verified";
+                        textBox4.AppendText(Environment.NewLine);
+                        foreach (string userValue in userArrValue)
+                        {
+                            ProcessStartInfo processtartinfo = new ProcessStartInfo
+                            {
+                                Arguments = $"-Command \"$Thumbprint = ((cipher /C '{strValue}' | Select-String -Pattern '{userValue}' -Context 1,2 | findstr Certificate` thumbprint).Trim()).Replace(\'Certificate thumbprint: \',\'\'); cipher /removeuser '{userValue}' /certhash:$Thumbprint /S:'{strValue}' /B /H\"",
+                                WindowStyle = ProcessWindowStyle.Hidden,
+                                FileName = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                                RedirectStandardOutput = true,
+                                UseShellExecute = false,
+                            };
+
+                            textBox4.Text += $"Please wait...";
+                            textBox4.AppendText(Environment.NewLine); 
+                            textBox4.Text += $"Verifying {strValue} can be granted access";
+                            textBox4.AppendText(Environment.NewLine);
+                            using (var process = Process.Start(processtartinfo))
+                            {
+                                var standardOutput = new StringBuilder();
+
+                                while (!process.HasExited)
+                                {
+                                    textBox4.Text += standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                                }  // End while
+                            }  // End using
+                        } // End foreach
+                    }  // End if
+                    else if (!Directory.Exists(strValue))
+                    {
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += $"{strValue} directory does NOT exist.";
+                        textBox4.AppendText(Environment.NewLine);
+                    }  // End else
+
+                }  // End else if
+            }  // End foreach
+        }
+
+        // Get File Info Button
+        private void Button6_Click(object sender, EventArgs e)
+        {
+            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            foreach (string strValue in arrValue)
             {
-                label1.Text = $"{strValue} file does NOT exist";
-
-                if (Directory.Exists(strValue))
+                if (File.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory location verified";
-
-                    ProcessStartInfo processtartinfo = new ProcessStartInfo
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += "============================================================";
+                    textBox4.Text += $"\nFile existence verified";
+                    textBox4.AppendText(Environment.NewLine);
+                    ProcessStartInfo proces1sstartinfo = new ProcessStartInfo
                     {
-                        Arguments = $"-Command \"$Thumbprint = ((cipher /C '{strValue}' | Select-String -Pattern '{userValue}' -Context 1,2 | findstr Certificate` thumbprint).Trim()).Replace(\'Certificate thumbprint: \',\'\'); cipher /removeuser '{userValue}' /certhash:$Thumbprint /S:'{strValue}' /B /H\"",
+                        Arguments = $"/c {strValue}",
                         WindowStyle = ProcessWindowStyle.Hidden,
-                        FileName = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                        FileName = "C:\\Windows\\System32\\cipher.exe",
                         RedirectStandardOutput = true,
                         UseShellExecute = false,
                     };
-
-                    label1.Text = $"Please wait... Verifying {strValue} can be granted access";
-
-                    using (var process = Process.Start(processtartinfo))
+                    using (var process = Process.Start(proces1sstartinfo))
                     {
                         var standardOutput = new StringBuilder();
-
+                        textBox4.Text += "============================================================";
                         while (!process.HasExited)
                         {
-                            label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                            textBox4.Text += standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
                         }  // End while
-
-                        label1.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
-
                     }  // End using
-                }  // End If
-                else if (!Directory.Exists(strValue))
+                }  // End if
+                else if (!File.Exists(strValue))
                 {
-                    label1.Text = $"{strValue} directory does NOT exist.";
-                }  // End Else
+                    textBox4.AppendText(Environment.NewLine);
+                    textBox4.Text += $"{strValue} file does NOT exist.";
+                    textBox4.AppendText(Environment.NewLine);
 
-            }  // End Else If
+                    if (Directory.Exists(strValue))
+                    {
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += "============================================================";
+                        textBox4.Text = "Directory location verified";
+                        textBox4.AppendText(Environment.NewLine);
+                        ProcessStartInfo proces1sstartinfo = new ProcessStartInfo
+                        {
+                            Arguments = $"/c {strValue}",
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = "C:\\Windows\\System32\\cipher.exe",
+                            RedirectStandardOutput = true,
+                            UseShellExecute = false,
+                        };
+                        using (var process = Process.Start(proces1sstartinfo))
+                        {
+                            var standardOutput = new StringBuilder();
+                            textBox4.Text += "============================================================";
+                            while (!process.HasExited)
+                            {
+                                textBox4.Text += standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
+                            }  // End while
+                        }  // End using
+                    }  // End if
+                    else if (!Directory.Exists(strValue))
+                    {
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += "============================================================";
+                        textBox4.Text += $"{strValue} directory does NOT exist.";
+                        textBox4.AppendText(Environment.NewLine);
+                    }  // End else
+                }  // End else if
+            }  // End foreach
         }
 
         private void TextBox1_TextChanged(object sender, EventArgs e)
@@ -345,6 +489,11 @@ namespace EncrypIT
         }
 
         private void TextBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TextBox4_TextChanged(object sender, EventArgs e)
         {
 
         }

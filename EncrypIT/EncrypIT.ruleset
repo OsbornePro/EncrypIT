@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for EncrypIT" Description="Code analysis rules for EncrypIT.csproj." ToolsVersion="16.0" />
