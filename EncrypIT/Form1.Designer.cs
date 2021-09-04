@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Encrypt = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -43,30 +43,32 @@
             // 
             // button1
             // 
+            this.button1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(8, 173);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(194, 45);
             this.button1.TabIndex = 0;
             this.button1.Text = "Encrypt";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
-            // textBox1
+            // Encrypt
             // 
-            this.textBox1.AllowDrop = true;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            this.textBox1.Location = new System.Drawing.Point(8, 85);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(772, 82);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "Drag and Drop file here. Then click the \"Encrypt\" or \"Decrypt\" button";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
-            this.textBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextBox1_DragDrop);
-            this.textBox1.DragOver += new System.Windows.Forms.DragEventHandler(this.TextBox1_DragOver);
+            this.Encrypt.AllowDrop = true;
+            this.Encrypt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Encrypt.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Encrypt.Location = new System.Drawing.Point(8, 85);
+            this.Encrypt.Multiline = true;
+            this.Encrypt.Name = "Encrypt";
+            this.Encrypt.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.Encrypt.Size = new System.Drawing.Size(772, 82);
+            this.Encrypt.TabIndex = 1;
+            this.Encrypt.Text = "Drag and Drop file(s) here. \r\nThen click the \"Encrypt\" or \"Decrypt\" button";
+            this.Encrypt.WordWrap = false;
+            this.Encrypt.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            this.Encrypt.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextBox1_DragDrop);
+            this.Encrypt.DragOver += new System.Windows.Forms.DragEventHandler(this.TextBox1_DragOver);
             // 
             // textBox2
             // 
@@ -83,13 +85,14 @@
             // 
             // button2
             // 
+            this.button2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.button2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.Location = new System.Drawing.Point(202, 173);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(194, 45);
             this.button2.TabIndex = 4;
             this.button2.Text = "Decrypt";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // button3
@@ -120,9 +123,11 @@
             this.textBox3.Location = new System.Drawing.Point(402, 224);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
+            this.textBox3.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox3.Size = new System.Drawing.Size(378, 231);
             this.textBox3.TabIndex = 7;
             this.textBox3.Text = "user1@domain.com\r\nuser2@domain.com";
+            this.textBox3.WordWrap = false;
             this.textBox3.TextChanged += new System.EventHandler(this.TextBox3_TextChanged);
             // 
             // button5
@@ -158,6 +163,7 @@
             this.textBox4.Size = new System.Drawing.Size(388, 282);
             this.textBox4.TabIndex = 10;
             this.textBox4.Text = "Status Information will appear here";
+            this.textBox4.WordWrap = false;
             this.textBox4.TextChanged += new System.EventHandler(this.TextBox4_TextChanged);
             // 
             // Form1
@@ -173,7 +179,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Encrypt);
             this.Controls.Add(this.button1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -187,7 +193,7 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Encrypt;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;

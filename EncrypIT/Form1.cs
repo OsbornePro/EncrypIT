@@ -2,10 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Drawing;
+using System.Diagnostics;
 using System.Collections;
 using System.Windows.Forms;
 using System.Security.Cryptography.X509Certificates;
-using System.Diagnostics;
+
 
 namespace EncrypIT
 {
@@ -36,13 +38,13 @@ namespace EncrypIT
             // get all files droppeds
             if (e.Data.GetData(DataFormats.FileDrop) is string[] files && files.Any())
             {
-                textBox1.ResetText();
+                Encrypt.ResetText();
                 foreach (string filePath in files)
                 {
-                    if (File.Exists(filePath) && filePath != files.Last()) 
-                        textBox1.AppendText(filePath + Environment.NewLine);
+                    if (File.Exists(filePath) && filePath != files.Last())
+                        Encrypt.AppendText(filePath + Environment.NewLine);
                     else
-                        textBox1.AppendText(filePath);
+                        Encrypt.AppendText(filePath);
                 }  // End foreach
             }  // End if
         }
@@ -59,7 +61,7 @@ namespace EncrypIT
         // Encrypt File or Folder
         private void Button1_Click(object sender, EventArgs e)
         {
-            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] arrValue = Encrypt.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             textBox4.Text = "";
             foreach (string strValue in arrValue)
             {
@@ -83,10 +85,10 @@ namespace EncrypIT
                     {
                         textBox4.AppendText(Environment.NewLine);
                         textBox4.Text += "Directory location verified.";
-                        textBox4.AppendText(Environment.NewLine); 
+                        textBox4.AppendText(Environment.NewLine);
                         textBox4.Text += "Executing folder encryption";
                         textBox4.AppendText(Environment.NewLine);
-                        File.Encrypt(textBox1.Text);
+                        File.Encrypt(Encrypt.Text);
                         textBox4.Text += $"Completed encryption of directory {strValue}";
                         textBox4.AppendText(Environment.NewLine);
                     }  // End If
@@ -103,7 +105,7 @@ namespace EncrypIT
         // Decrypt File or Folder
         private void Button2_Click(object sender, EventArgs e)
         {
-            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] arrValue = Encrypt.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             textBox4.Text = "";
             foreach (string strValue in arrValue)
             {
@@ -111,7 +113,7 @@ namespace EncrypIT
                 {
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += "File location verified.";
-                    textBox4.AppendText(Environment.NewLine); 
+                    textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += "Executing file decryption";
                     textBox4.AppendText(Environment.NewLine);
                     File.Decrypt(strValue);
@@ -150,89 +152,98 @@ namespace EncrypIT
             string certTemplateName = "Basic EFS"; // First certificate template search looks for the Basic EFS template before failing over to key usage
             int keyUsage = 32; //Key Encipherment value 32 means the key can be used for encryption
 
-            // Defines the file name of the pfx file that will be saved/created
-            string saveCertificate = "efs-backup.pfx";
+            // Prompt user for password
+            PasswordBox getPassword = new PasswordBox();
+            string myPassword = getPassword.Show("Enter a password to protect the private key on your certificate", "Password Prompt");
 
-            // Defines the directory to save the backup EFS certificate. Default is the user profile directory C:\Users\username
-            string savePath = Environment.GetEnvironmentVariable("USERPROFILE");
-
-            // Generating a password to protect the private key
-            int passLength = 20;
-            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            StringBuilder res = new StringBuilder();
-            Random rnd = new Random();
-            while (0 <= passLength--)
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog
             {
-                res.Append(valid[rnd.Next(valid.Length)]);
-            }
-            string myPassword = res.ToString();
+                Filter = "pfx files (*.pfx)|*.pfx|All files (*.*)|*.*",
+                DefaultExt = "*.pfx",
+                FileName = "efs-backup.pfx",
+                InitialDirectory = Environment.GetEnvironmentVariable("USERPROFILE"),
+                FilterIndex = 2,
+                RestoreDirectory = true
+            };
 
-
-            // Define certificate and store to look in
-            X509Store storeLocation = new X509Store("My", StoreLocation.CurrentUser);
-
-            // Get EFS Certificate
-            storeLocation.Open(OpenFlags.ReadWrite);
-            IEnumerable certs = storeLocation.Certificates.Find(X509FindType.FindByTemplateName, certTemplateName, true);
-            X509Certificate certTemplate = certs.OfType<X509Certificate>().FirstOrDefault();
-            
-
-            // If no certificate has been asssigned for the defined template or the wrong template is specified you will receive this message
-            if (certTemplate is null)
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                textBox4.Text += $"No certificates could be found be found with a certiticate template name of {certTemplateName}. Attempting to obtain a certificate with a keyUsage value of 32.";
-                textBox4.AppendText(Environment.NewLine);
-                IEnumerable cer = storeLocation.Certificates.Find(X509FindType.FindByKeyUsage, keyUsage, true);
-                X509Certificate cerTemplate = cer.OfType<X509Certificate>().FirstOrDefault();
-
-                // Export certificate to object
-                byte[] certData = cerTemplate.Export(X509ContentType.Pfx, myPassword);
-
-                // Save certificate to file
-                File.WriteAllBytes($"{savePath}\\{saveCertificate}", certData);
-
-                if (File.Exists($"{savePath}\\{saveCertificate}"))
+                // Saves the Image via a FileStream created by the OpenFile method.
+                FileStream fs = (FileStream)saveFileDialog1.OpenFile();
+                if (fs != null)
                 {
-                    // Inform user of save location
-                    textBox4.Text = $"Backup of your key is saved too {savePath}\\{saveCertificate}.";
-                    textBox4.AppendText(Environment.NewLine);
-                    textBox4.Text += $"The password for your backup key is {myPassword}. The password is copied to your clipboard and can be pasted.";
-                    textBox4.AppendText(Environment.NewLine);
-                    textBox4.Text += "DO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
-                    textBox4.AppendText(Environment.NewLine);
-                    Clipboard.SetText(myPassword);
-                }
-                else if (!File.Exists($"{savePath}\\{saveCertificate}"))
-                {
-                    // Display the value to the console.
-                    textBox4.Text = $"Unable to save certificate to {savePath}\\{saveCertificate}. Ensure you have an EFS certificate";
-                    textBox4.AppendText(Environment.NewLine);
-                }
-            }
-            else
-            {
-                // Export certificate to object
-                byte[] certData = certTemplate.Export(X509ContentType.Pfx, myPassword);
+                    fs.Close();
+                    // Define certificate and store to look in
+                    X509Store storeLocation = new X509Store("My", StoreLocation.CurrentUser);
 
-                // Save certificate to file
-                File.WriteAllBytes($"{savePath}\\{saveCertificate}", certData);
+                    // Get EFS Certificate by template name
+                    storeLocation.Open(OpenFlags.ReadWrite);
+                    IEnumerable certs = storeLocation.Certificates.Find(X509FindType.FindByTemplateName, certTemplateName, true);
+                    X509Certificate certTemplate = certs.OfType<X509Certificate>().FirstOrDefault();
 
-                if (File.Exists($"{savePath}\\{saveCertificate}"))
-                {
-                    // Inform user of save location
-                    textBox4.Text = $"Backup of your key is saved too {savePath}\\{saveCertificate}.";
-                    textBox4.AppendText(Environment.NewLine);
-                    textBox4.Text += $"The password for your backup key is {myPassword}. The password is copied to your clipboard and can be pasted.";
-                    textBox4.AppendText(Environment.NewLine); 
-                    textBox4.Text += "DO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
-                    textBox4.AppendText(Environment.NewLine);
-                    Clipboard.SetText(myPassword);
-                }
-                else if (!File.Exists($"{savePath}\\{saveCertificate}"))
-                {
-                    // Display the value to the console.
-                    textBox4.Text += $"Unable to save certificate to {savePath}\\{saveCertificate}. Ensure you have the appropriate permissions to save your backup here.";
-                    textBox4.AppendText(Environment.NewLine);
+                    // If no certificate has been asssigned for the defined template or the wrong template is specified you will receive this message
+                    if (certTemplate is null)
+                    {
+                        textBox4.Text = $"No certificates could be found be found with a certiticate template name of {certTemplateName}. Attempting to obtain a certificate with a keyUsage value of 32.";
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.AppendText(Environment.NewLine);
+                        IEnumerable cer = storeLocation.Certificates.Find(X509FindType.FindByKeyUsage, keyUsage, true);
+                        X509Certificate cerTemplate = cer.OfType<X509Certificate>().FirstOrDefault();
+
+                        // Export certificate to object
+                        byte[] certData = cerTemplate.Export(X509ContentType.Pfx, myPassword.ToString());
+
+                        // Save certificate to file
+                        File.WriteAllBytes($"{saveFileDialog1.FileName}", certData);
+                        if (File.Exists($"{saveFileDialog1.FileName}"))
+                        {
+                            // Inform user of save location
+                            textBox4.Text += $"Backup of your key is saved too {saveFileDialog1.FileName}.";
+                            textBox4.AppendText(Environment.NewLine);
+                            textBox4.AppendText(Environment.NewLine);
+                            textBox4.Text += $"The password for your backup key is {myPassword}";
+                            textBox4.AppendText(Environment.NewLine);
+                            textBox4.AppendText(Environment.NewLine);
+                            Clipboard.SetText(myPassword.ToString());
+                            textBox4.Text += "The password is now copied to your clipboard and can be pasted.";
+                            textBox4.AppendText(Environment.NewLine);
+                            textBox4.AppendText(Environment.NewLine);
+                            textBox4.Text += "DO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
+                            textBox4.AppendText(Environment.NewLine);
+                            textBox4.AppendText(Environment.NewLine);
+                        }
+                        else if (!File.Exists($"{saveFileDialog1.FileName}"))
+                        {
+                            // Display the value to the console.
+                            textBox4.Text = $"Unable to save certificate to {saveFileDialog1.FileName}. Ensure you have an EFS certificate";
+                            textBox4.AppendText(Environment.NewLine);
+                        }
+                    }
+                    else
+                    {
+                        // Export certificate to object
+                        byte[] certData = certTemplate.Export(X509ContentType.Pfx, myPassword.ToString());
+
+                        // Save certificate to file
+                        File.WriteAllBytes($"{saveFileDialog1.FileName}", certData);
+                        if (File.Exists($"{saveFileDialog1.FileName}"))
+                        {
+                            // Inform user of save location
+                            textBox4.Text = $"Backup of your key is saved too {saveFileDialog1.FileName}.";
+                            textBox4.AppendText(Environment.NewLine);
+                            textBox4.Text += $"The password for your backup key is {myPassword}. The password is copied to your clipboard and can be pasted.";
+                            textBox4.AppendText(Environment.NewLine);
+                            textBox4.Text += "DO NOT LOSE THIS PASSWORD! Keep it stored somewhere safe like a password manager.";
+                            textBox4.AppendText(Environment.NewLine);
+                            Clipboard.SetText(myPassword.ToString());
+                        }
+                        else if (!File.Exists($"{saveFileDialog1.FileName}"))
+                        {
+                            // Display the value to the console.
+                            textBox4.Text = $"Unable to save certificate to {saveFileDialog1.FileName}. Ensure you have the appropriate permissions to save your backup here.";
+                            textBox4.AppendText(Environment.NewLine);
+                        }
+                    }
                 }
             }
         }
@@ -240,7 +251,7 @@ namespace EncrypIT
         // Add Access
         private void Button4_Click(object sender, EventArgs e)
         {
-            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] arrValue = Encrypt.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             string[] userArrValue = textBox3.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             foreach (string strValue in arrValue)
@@ -262,7 +273,7 @@ namespace EncrypIT
                         };
 
                         textBox4.Text += $"Please wait...";
-                        textBox4.AppendText(Environment.NewLine); 
+                        textBox4.AppendText(Environment.NewLine);
                         textBox4.Text += $"Verifying {userValue} can be granted access";
                         using (var process = Process.Start(processtartinfo))
                         {
@@ -296,7 +307,7 @@ namespace EncrypIT
                             };
 
                             textBox4.Text += $"Please wait...";
-                            textBox4.AppendText(Environment.NewLine); 
+                            textBox4.AppendText(Environment.NewLine);
                             textBox4.Text += $"Verifying {userValue} can be granted access";
                             textBox4.AppendText(Environment.NewLine);
                             using (var process = Process.Start(proces1sstartinfo))
@@ -304,7 +315,7 @@ namespace EncrypIT
                                 var standardOutput = new StringBuilder();
 
                                 while (!process.HasExited)
-                               {
+                                {
                                     textBox4.Text = standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
                                 }  // End while
                             }  // End using
@@ -324,7 +335,7 @@ namespace EncrypIT
         // Remove Access
         private void Button5_Click(object sender, EventArgs e)
         {
-            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] arrValue = Encrypt.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             string[] userArrValue = textBox3.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             foreach (string strValue in arrValue)
@@ -346,7 +357,7 @@ namespace EncrypIT
                         };
 
                         textBox4.Text += $"Please wait...";
-                        textBox4.AppendText(Environment.NewLine); 
+                        textBox4.AppendText(Environment.NewLine);
                         textBox4.Text += $"Verifying {strValue} can have access removed. Thumbprint is";
                         textBox4.AppendText(Environment.NewLine);
                         using (var process = Process.Start(processtartinfo))
@@ -382,7 +393,7 @@ namespace EncrypIT
                             };
 
                             textBox4.Text += $"Please wait...";
-                            textBox4.AppendText(Environment.NewLine); 
+                            textBox4.AppendText(Environment.NewLine);
                             textBox4.Text += $"Verifying {strValue} can be granted access";
                             textBox4.AppendText(Environment.NewLine);
                             using (var process = Process.Start(processtartinfo))
@@ -410,7 +421,7 @@ namespace EncrypIT
         // Get File Info Button
         private void Button6_Click(object sender, EventArgs e)
         {
-            string[] arrValue = textBox1.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] arrValue = Encrypt.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             foreach (string strValue in arrValue)
             {
                 if (File.Exists(strValue))
@@ -496,6 +507,102 @@ namespace EncrypIT
         private void TextBox4_TextChanged(object sender, EventArgs e)
         {
 
+        }
+    }
+    class PasswordBox
+    { 
+        // Below is code for the password input box
+        private Form passwordForm;
+        public string Show(string prompt, string title)
+        {
+            passwordForm = new Form();
+            FlowLayoutPanel FL = new FlowLayoutPanel();
+            Label lbl = new Label();
+            TextBox txt = new TextBox();
+            Button ok = new Button();
+            Button autogen = new Button();
+
+            passwordForm.Font = new Font("Arial", 9, FontStyle.Bold);
+            passwordForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            passwordForm.StartPosition = FormStartPosition.CenterScreen;
+            passwordForm.Width = 400;
+            passwordForm.Height = 175;
+
+            passwordForm.Text = title;
+            lbl.Text = prompt;
+            ok.Text = "OK";
+            autogen.Text = "Auto Generate";
+            txt.PasswordChar = '*';
+
+            ok.FlatStyle = FlatStyle.Flat;
+            ok.BackColor = SystemColors.ButtonShadow;
+            ok.ForeColor = SystemColors.ButtonHighlight;
+            ok.Cursor = Cursors.Hand;
+
+            autogen.FlatStyle = FlatStyle.Flat;
+            autogen.BackColor = SystemColors.ButtonShadow;
+            autogen.ForeColor = SystemColors.ButtonHighlight;
+            autogen.Cursor = Cursors.Hand;
+
+            FL.Left = 0;
+            FL.Top = 0;
+            FL.Width = passwordForm.Width;
+            FL.Height = passwordForm.Height;
+            FL.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            FL.Padding = new Padding(10);
+            FL.FlowDirection = FlowDirection.TopDown;
+
+            ok.Width = FL.Width - 35;
+            txt.Width = ok.Width;
+            autogen.Width = ok.Width;
+            lbl.Width = ok.Width;
+
+            ok.Click += new EventHandler(OkClick);
+            autogen.Click += new EventHandler(AutoGenClick);
+            txt.KeyPress += new KeyPressEventHandler(TxtEnter);
+
+            FL.Controls.Add(lbl);
+            FL.Controls.Add(txt);
+            FL.Controls.Add(ok);
+            FL.Controls.Add(autogen);
+            passwordForm.Controls.Add(FL);
+
+            passwordForm.ShowDialog();
+            DialogResult DR = passwordForm.DialogResult;
+            passwordForm.Dispose();
+            passwordForm = null;
+            if (DR == DialogResult.OK)
+            {
+                return txt.Text;
+            }
+            else
+            {
+                // Generating a password to protect the private key
+                int passLength = 20;
+                const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!";
+                StringBuilder res = new StringBuilder();
+                Random rnd = new Random();
+                while (0 <= passLength--)
+                {
+                    res.Append(valid[rnd.Next(valid.Length)]);
+                }
+                string myPassword = res.ToString();
+                return myPassword;
+            }
+        }
+        private void OkClick(object sender, EventArgs e)
+        {
+            passwordForm.DialogResult = DialogResult.OK;
+            passwordForm.Close();
+        }
+        private void AutoGenClick(object sender, EventArgs e)
+        {
+            passwordForm.DialogResult = DialogResult.Cancel;
+            passwordForm.Close();
+        }
+        private void TxtEnter(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13) { OkClick(null, null); }
         }
     }
 }
