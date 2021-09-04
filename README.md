@@ -5,12 +5,16 @@ __Availble for download at SourceForge as well__ <br>
 This program was created in an attempt to simplify the use of Encryption File System (EFS) for the everyday user. This application will allow a user to quickly and easily backup their EFS certificate to a PFX file. The application can also quickly and easily encrypt a file or directory using Encrypting File System (EFS) while also allowing the granting of access to other users in the domain. The instructions are simple which I have included in the topics below. <br>
 <br>
 __IDEAS FOR FURTURE RELEASES__
-Currently I do not have any more ideas for this application. If you have any suggestions feel free to reach out to me at info@osbornepro.com.
+- Allow user to select where to save their backup EFS key
+- Allow user to define their own password for the EFS key
+- Change the backend for granting and removing access to a file
+- Attempt to allow a group to be defined in order to add all members of that group to a files permissions
+If you have any suggestions feel free to reach out to me at info@osbornepro.com.
 
 
 There are a couple limitations to know when using EFS.
-1. You are only able to grant EFS permissions to a user, NOT groups. This is because public-private key pairs are used for encryption.
-2. When encryption is set for a folder, EFS automatically encrypts all new files created in the folder and all files copied or moved into the folder. This means EFS file sharing can be applied only to individual EFS-encrypted files, and not to EFS-encrypted NTFS folders.
+1. You are only able to grant EFS permissions to a user, NOT groups. This is because public-private key pairs are used for encryption. The EncrypIT application allows you to define multiple users at a time for acces to a file.
+2. When encryption is set for a folder, EFS automatically encrypts all new files created in the folder and all files copied or moved into the folder. This means EFS file sharing can be applied only to individual EFS-encrypted files, and not to EFS-encrypted NTFS folders. EncrypIT will allow you to return information on a file that displays whether or not the parent directory is encrypting all if its contents, the encrpytion algorithm used, users who can decrypt the file, and list recovery certificate users.
 3. Using file shares for remote EFS operations requires a Windows 2000 or later domain environment because EFS must impersonate the user by using Kerberos delegation to encrypt or decrypt files for the user. This requires that the user must be logged on with a domain account that can be delegated and the computer must be a domain member in a domain that uses Kerberos authentication and the computer must be trusted for delegation.
 4. Microsoft suggests using "Web Distributed Authoring and Versioning (WebDAV) Web folders" whenever possible for remote storage of encrypted files. Web folders require less administrative effort and are more secure than file shares. Web folders can also securely store and deliver encrypted files over the Internet by using standard HTTP file transfers. EFS encrypted files stored on Network Shares require the user to be able to log into the server. This is because network share files get decrypted on the server before being streamed to the device accessing it. The Web Folders decrypt the file on the local computer instead of the server.
 5. A user must have either a local profile on the computer where EFS operations will occur or a roaming profile. If the user does not have a local profile on the remote computer or a roaming profile, EFS creates a local profile for the user on the remote computer.
