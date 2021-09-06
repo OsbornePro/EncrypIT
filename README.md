@@ -30,14 +30,16 @@ __FILE:__ [TrustComputersForDelegation.ps1](https://github.com/OsbornePro/Encryp
 ### How To Encrypt a File or Directory
 1. Open the application
 2. Drag and Drop a file(s) or folder(s) from File Explorer into the top white area of the application.
-3. Click the "_Encrypt_" button
+3. Tick the "_Recursive_" button to encrypt the contents of any selected folders
+4. Click the "_Encrypt_" button
 The file(s) are now encrypted using EFS and can only be accessed by the user who performed the encryption.
 ![Encrypt Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/Encrypt.png)
 
 ### How To Decrypt a File or Directory
 1. Open the application
 2. Drag and Drop a file(s) or folder(s) from File Explorer into the top white area of the application.
-3. Click the "_Decrypt_" button <br>
+3. Tick the "Recursive" button to decrypt the contents of any selected folders
+4. Click the "_Decrypt_" button <br>
 The file(s) you defined are now decrypted and can be accessed by anyone with appropriate NTFS permissions.
 ![Decrypt Results](https://raw.githubusercontent.com/OsbornePro/EncrypIT/main/EncrypIT/Decrypt.png)
 
