@@ -4,6 +4,11 @@ __Availble for download at SourceForge as well__ <br>
 
 This program was created in an attempt to simplify the use of Encryption File System (EFS) for the everyday user. This application will allow a user to quickly and easily backup their EFS certificate to a PFX file. The application can also quickly and easily encrypt a file or directory using Encrypting File System (EFS) while also allowing the granting of access to other users in the domain. The instructions are simple which I have included in the topics below. <br>
 <br>
+You can verify whether or not EFS is enabled by issuing the below command
+```powershell
+If ((Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\EFS' -Name "EfsConfiguration" -ErrorAction SilentlyContinue) -eq 1) { Write-Output "EFS is Disabled" } Else { Write-Output "EFS is Enabled" }
+```
+
 __IDEAS FOR FURTURE RELEASES__
 - Change the backend for granting and removing access to a file
 - Attempt to allow a group to be defined in order to add all members of that group to a files permissions
