@@ -522,13 +522,13 @@ namespace EncrypIT
                 else if (!File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
-                    textBox4.Text = $"{strValue} file does NOT exist.";
+                    textBox4.Text += $"{strValue} file does NOT exist.";
                     textBox4.AppendText(Environment.NewLine);
 
                     if (Directory.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                     {
                         textBox4.AppendText(Environment.NewLine);
-                        textBox4.Text = "============================================================";
+                        textBox4.Text += "============================================================";
                         textBox4.AppendText(Environment.NewLine);
                         textBox4.Text += "Directory location verified";
                         textBox4.AppendText(Environment.NewLine);
