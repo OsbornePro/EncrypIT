@@ -65,36 +65,69 @@ namespace EncrypIT
             textBox4.Text = "";
             foreach (string strValue in arrValue)
             {
-                if (File.Exists(strValue))
+                if (File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += "File location verified.";
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += "Executing file encryption";
                     textBox4.AppendText(Environment.NewLine);
-                    File.Encrypt(strValue);
-                    textBox4.Text += $"Completed encryption of file {strValue}";
+                    try
+                    {
+                        File.Encrypt(strValue);
+                    }
+                    catch
+                    {
+                        textBox4.Text += $"{strValue} is already encrypted";
+                        textBox4.AppendText(Environment.NewLine);
+                    }
+                    textBox4.Text += $"Completed encryption of {strValue}";
                     textBox4.AppendText(Environment.NewLine);
                 }  // End If
-                else if (!File.Exists(strValue))
+                else if (!File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
-                    textBox4.Text += $"{strValue} file does NOT exist";
-                    textBox4.AppendText(Environment.NewLine);
-
-                    if (Directory.Exists(strValue))
+                    if (Directory.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                     {
                         textBox4.AppendText(Environment.NewLine);
                         textBox4.Text += "Directory location verified.";
                         textBox4.AppendText(Environment.NewLine);
-                        textBox4.Text += "Executing folder encryption";
+                        try
+                        {
+                            if (checkBox1.Checked == true)
+                            {
+                                textBox4.Text += $"Telling {strValue} to encrypt newly saved files";
+                                textBox4.AppendText(Environment.NewLine);
+                                File.Encrypt(strValue);
+                                foreach (string dir in Directory.GetDirectories(strValue))
+                                {
+                                    foreach (string file in Directory.GetFiles(dir))
+                                    {
+                                        textBox4.Text += $"Encrypting {file}";
+                                        textBox4.AppendText(Environment.NewLine);
+                                        File.Encrypt(file);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                textBox4.Text += "Telling directory to encrypt newly saved files";
+                                textBox4.AppendText(Environment.NewLine);
+                                File.Encrypt(strValue);
+                            }
+                        }
+                        catch
+                        {
+                            textBox4.Text += $"{strValue} is already encrypted or cannot be encrypted by current user";
+                            textBox4.AppendText(Environment.NewLine);
+                        }
+                        textBox4.Text += $"Any New Files added too {strValue} will be encrypted.";
                         textBox4.AppendText(Environment.NewLine);
-                        File.Encrypt(Encrypt.Text);
-                        textBox4.Text += $"Completed encryption of directory {strValue}";
+                        textBox4.Text += $"Current folder contents will not be encrypted to help prevent this application from being used as ransomware";
                         textBox4.AppendText(Environment.NewLine);
                     }  // End If
                     else if (!Directory.Exists(strValue))
                     {
-                        textBox4.Text += $"{strValue} directory does NOT exist.";
+                        textBox4.Text += $"{strValue} does NOT exist.";
                         textBox4.AppendText(Environment.NewLine);
                     }  // End Else
 
@@ -109,37 +142,70 @@ namespace EncrypIT
             textBox4.Text = "";
             foreach (string strValue in arrValue)
             {
-                if (File.Exists(strValue))
+                if (File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += "File location verified.";
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += "Executing file decryption";
                     textBox4.AppendText(Environment.NewLine);
-                    File.Decrypt(strValue);
+                    try
+                    {
+                        File.Decrypt(strValue);
+                    }
+                    catch
+                    {
+                        textBox4.Text += $"{strValue} is not encrypted or can not be decrypted";
+                        textBox4.AppendText(Environment.NewLine);
+                    }
                     textBox4.Text += $"Completed decryption of file {strValue}";
                     textBox4.AppendText(Environment.NewLine);
                 }  // End if
-                else if (!File.Exists(strValue))
+                else if (!File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
-                    textBox4.AppendText(Environment.NewLine);
-                    textBox4.Text += $"{strValue} file does NOT exist";
-                    textBox4.AppendText(Environment.NewLine);
-                    if (Directory.Exists(strValue))
+                    if (Directory.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                     {
                         textBox4.AppendText(Environment.NewLine);
                         textBox4.Text += "Directory location verified.";
                         textBox4.AppendText(Environment.NewLine);
-                        textBox4.Text += "Executing folder decryption";
+                        try
+                        {
+                            if (checkBox1.Checked == true)
+                            {
+                                textBox4.Text += $"Telling {strValue} NOT to encrypt newly saved files";
+                                textBox4.AppendText(Environment.NewLine);
+                                File.Encrypt(strValue);
+                                foreach (string dir in Directory.GetDirectories(strValue))
+                                {
+                                    foreach (string file in Directory.GetFiles(dir))
+                                    {
+                                        textBox4.Text += $"Decrypting {file}";
+                                        textBox4.AppendText(Environment.NewLine);
+                                        File.Decrypt(file);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                textBox4.Text += "Telling directory to encrypt newly saved files";
+                                textBox4.AppendText(Environment.NewLine);
+                                File.Decrypt(strValue);
+                            }
+                        }
+                        catch
+                        {
+                            textBox4.Text += $"{strValue} is not encrypted or can not be decrypted";
+                            textBox4.AppendText(Environment.NewLine);
+                        }
+                        textBox4.Text += $"New Files added to {strValue} will NO longer be encrypted.";
                         textBox4.AppendText(Environment.NewLine);
-                        File.Decrypt(strValue);
-                        textBox4.Text += $"Completed decryption of directory {strValue}";
+                        textBox4.Text += $"Current folder contents will NOT be decrypted to prevent unintedned decryptions";
                         textBox4.AppendText(Environment.NewLine);
                     }  // End if
                     else if (!Directory.Exists(strValue))
                     {
                         textBox4.AppendText(Environment.NewLine);
-                        textBox4.Text += $"{strValue} directory does NOT exist.";
+                        textBox4.Text += $"{strValue} does NOT exist.";
                         textBox4.AppendText(Environment.NewLine);
                     }  // End else if
                 }  // End if
@@ -149,6 +215,7 @@ namespace EncrypIT
         // Backup Certificate Key
         private void Button3_Click(object sender, EventArgs e)
         {
+            textBox4.Text = "";
             string certTemplateName = "Basic EFS"; // First certificate template search looks for the Basic EFS template before failing over to key usage
             int keyUsage = 32; //Key Encipherment value 32 means the key can be used for encryption
 
@@ -251,12 +318,13 @@ namespace EncrypIT
         // Add Access
         private void Button4_Click(object sender, EventArgs e)
         {
+            textBox4.Text = "";
             string[] arrValue = Encrypt.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             string[] userArrValue = textBox3.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             foreach (string strValue in arrValue)
             {
-                if (File.Exists(strValue))
+                if (File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += "File location verified";
@@ -285,12 +353,12 @@ namespace EncrypIT
                         }  // End using
                     } // End foreach
                 }  // End If
-                else if (!File.Exists(strValue))
+                else if (!File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += $"\n{strValue} file does NOT exist";
                     textBox4.AppendText(Environment.NewLine);
-                    if (Directory.Exists(strValue))
+                    if (Directory.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                     {
                         textBox4.AppendText(Environment.NewLine);
                         textBox4.Text += "Directory location verified";
@@ -335,12 +403,13 @@ namespace EncrypIT
         // Remove Access
         private void Button5_Click(object sender, EventArgs e)
         {
+            textBox4.Text = "";
             string[] arrValue = Encrypt.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             string[] userArrValue = textBox3.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             foreach (string strValue in arrValue)
             {
-                if (File.Exists(strValue))
+                if (File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text = $"{strValue} file location verified";
@@ -370,13 +439,13 @@ namespace EncrypIT
                         }  // End using
                     }  // End foreach
                 }  // End if
-                else if (!File.Exists(strValue))
+                else if (!File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text = $"{strValue} file does NOT exist";
                     textBox4.AppendText(Environment.NewLine);
 
-                    if (Directory.Exists(strValue))
+                    if (Directory.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                     {
                         textBox4.AppendText(Environment.NewLine);
                         textBox4.Text = "Directory location verified";
@@ -421,18 +490,20 @@ namespace EncrypIT
         // Get File Info Button
         private void Button6_Click(object sender, EventArgs e)
         {
+            textBox4.Text = "";
             string[] arrValue = Encrypt.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             foreach (string strValue in arrValue)
             {
-                if (File.Exists(strValue))
+                if (File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += "============================================================";
+                    textBox4.AppendText(Environment.NewLine);
                     textBox4.Text += $"\nFile existence verified";
                     textBox4.AppendText(Environment.NewLine);
                     ProcessStartInfo proces1sstartinfo = new ProcessStartInfo
                     {
-                        Arguments = $"/c {strValue}",
+                        Arguments = $"/c \"{strValue}\"",
                         WindowStyle = ProcessWindowStyle.Hidden,
                         FileName = "C:\\Windows\\System32\\cipher.exe",
                         RedirectStandardOutput = true,
@@ -448,21 +519,22 @@ namespace EncrypIT
                         }  // End while
                     }  // End using
                 }  // End if
-                else if (!File.Exists(strValue))
+                else if (!File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
-                    textBox4.Text += $"{strValue} file does NOT exist.";
+                    textBox4.Text = $"{strValue} file does NOT exist.";
                     textBox4.AppendText(Environment.NewLine);
 
-                    if (Directory.Exists(strValue))
+                    if (Directory.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                     {
                         textBox4.AppendText(Environment.NewLine);
-                        textBox4.Text += "============================================================";
-                        textBox4.Text = "Directory location verified";
+                        textBox4.Text = "============================================================";
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += "Directory location verified";
                         textBox4.AppendText(Environment.NewLine);
                         ProcessStartInfo proces1sstartinfo = new ProcessStartInfo
                         {
-                            Arguments = $"/c {strValue}",
+                            Arguments = $"/c \"{strValue}\"",
                             WindowStyle = ProcessWindowStyle.Hidden,
                             FileName = "C:\\Windows\\System32\\cipher.exe",
                             RedirectStandardOutput = true,
@@ -472,17 +544,19 @@ namespace EncrypIT
                         {
                             var standardOutput = new StringBuilder();
                             textBox4.Text += "============================================================";
+                            textBox4.AppendText(Environment.NewLine);
                             while (!process.HasExited)
                             {
                                 textBox4.Text += standardOutput.Append(process.StandardOutput.ReadToEnd()).ToString();
                             }  // End while
                         }  // End using
                     }  // End if
-                    else if (!Directory.Exists(strValue))
+                    else if (!Directory.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                     {
                         textBox4.AppendText(Environment.NewLine);
                         textBox4.Text += "============================================================";
-                        textBox4.Text += $"{strValue} directory does NOT exist.";
+                        textBox4.AppendText(Environment.NewLine);
+                        textBox4.Text += $"{strValue} does NOT exist.";
                         textBox4.AppendText(Environment.NewLine);
                     }  // End else
                 }  // End else if
@@ -505,6 +579,11 @@ namespace EncrypIT
         }
 
         private void TextBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
 
         }

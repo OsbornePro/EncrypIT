@@ -39,6 +39,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -78,7 +79,7 @@
             this.textBox2.Location = new System.Drawing.Point(12, 12);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(772, 67);
+            this.textBox2.Size = new System.Drawing.Size(772, 34);
             this.textBox2.TabIndex = 2;
             this.textBox2.Text = resources.GetString("textBox2.Text");
             this.textBox2.TextChanged += new System.EventHandler(this.TextBox2_TextChanged);
@@ -166,11 +167,23 @@
             this.textBox4.WordWrap = false;
             this.textBox4.TextChanged += new System.EventHandler(this.TextBox4_TextChanged);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(8, 53);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(348, 17);
+            this.checkBox1.TabIndex = 11;
+            this.checkBox1.Text = "Recursive (Tick this box to recursively encrypt or decrypt a directory)";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 518);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
@@ -202,6 +215,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

@@ -119,9 +119,7 @@
   </resheader>
   <data name="textBox2.Text" xml:space="preserve">
     <value>Drag and Drop a single file or multiple selected files into the top text box. Then click "Encrypt" or "Decrypt"
-After encrypting a file or folder, you will be able to add or remove fellow domain members access to the item you have encrypted. 
-Enter an email address into the lower text box and click "Grant Access or "Revoke Access".
-Use a new line for each email address you wish to modify access on.</value>
+Enter an email address into the lower text box and click "Grant Access or "Revoke Access".</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
