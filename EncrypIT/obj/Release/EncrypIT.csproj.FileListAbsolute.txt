@@ -17,4 +17,3 @@ C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.
 C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.csproj.CoreCompileInputs.cache
 C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.exe
 C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.pdb
-C:\Users\robos\OneDrive\Documents\GitHub\EncrypIT\EncrypIT\obj\Release\EncrypIT.csproj.AssemblyReference.cache

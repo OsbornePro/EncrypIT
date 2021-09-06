@@ -41,7 +41,7 @@ namespace EncrypIT
                 Encrypt.ResetText();
                 foreach (string filePath in files)
                 {
-                    if (File.Exists(filePath) && filePath != files.Last())
+                    if (File.Exists(filePath) || Directory.Exists(filePath) && filePath != files.Last())
                         Encrypt.AppendText(filePath + Environment.NewLine);
                     else
                         Encrypt.AppendText(filePath);
