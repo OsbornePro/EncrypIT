@@ -494,6 +494,7 @@ namespace EncrypIT
             string[] arrValue = Encrypt.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             foreach (string strValue in arrValue)
             {
+                textBox4.AppendText(strValue.ToString());
                 if (File.Exists(strValue) && (!strValue.Contains('"')) && (!strValue.Contains("'")))
                 {
                     textBox4.AppendText(Environment.NewLine);
