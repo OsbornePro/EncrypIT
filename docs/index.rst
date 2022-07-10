@@ -13,6 +13,7 @@ This is open source so if you wish to help contribute to the contents of this pr
 For more general information on this feel free to refer to the `CONTRIBUTING <https://github.com/OsbornePro/EncrypIT/blob/main/CONTRIBUTING.md>`_ documentation.
 
 **General Summary for this project can be read at** https://github.com/OsbornePro/EncrypIT/blob/main/README.md
+
 This repo contains the source code used to build the EncrypIT application.
 EncrypIT is an attempt to simplify the use of Encryption File System (EFS) for the everyday user.
 The application will allow a user to quickly and easily backup their EFS certificate to a PFX file, modify what domain users have permissions to decrypt their file, and of course encrypt and decrypt files and directories.
@@ -34,7 +35,7 @@ Ideas For Future Releases
 
 Disclaimer
 ==========
-**DISCLAIMER:** This tool was created to make the use of Encrypting File System (EFS) something the every day user can take advantage of. This tool does require the use of certificates to encrypt and decrypt data. I highly recommend following my `YouTube instructional video <https://www.youtube.com/watch?v=pSxSByxT25k>`_ for configuration EFS on your file server. This is to ensure you have an administrative way of decrypting files in the event someone loses their key.
+This tool was created to make the use of Encrypting File System (EFS) something the every day user can take advantage of. This tool does require the use of certificates to encrypt and decrypt data. I highly recommend following my `YouTube instructional video <https://www.youtube.com/watch?v=pSxSByxT25k>`_ for configuration EFS on your file server. This is to ensure you have an administrative way of decrypting files in the event someone loses their key.
 
 
 How To Instructions
