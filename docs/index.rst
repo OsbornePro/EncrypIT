@@ -7,6 +7,17 @@ Welcome to EncrypIT's documentation!
 * `LiberPay Donations <https://liberapay.com/tobor/donate>`_
 * `Report Issues <https://osbornepro.com/schedule-or-contact>`_
 
+Download Links
+--------------
+
+These are all the same file, just different locations to download from depending on your preferred or trusted hosting provider
+
+1. `EncrypIT: GitHub Download <https://github.com/OsbornePro/EncrypIT/releases/download/EncrypITv2.4/EncrypIT.exe>`_
+2. `EncrypIT: SourceForge Download <https://sourceforge.net/projects/encrypit/files/latest/download>`_
+3. `EncrypIT: Softpedia Download <https://www.softpedia.com/get/Security/Encrypting/EncrypIT.shtml>`_
+4. `EncrypIT: Major Geeks Download <https://www.majorgeeks.com/files/details/encrypit.html>`_
+
+
 **Contributions**
 
 This is open source so if you wish to help contribute to the contents of this project feel free to reach out to me at info@osbornepro.com with your thoughts and ideas.
