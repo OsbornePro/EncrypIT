@@ -1,3 +1,15 @@
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TV65EKSL1P"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TV65EKSL1P');
+</script>
+
+
 Welcome to EncrypIT's documentation!
 ====================================
 
