@@ -1,39 +1,43 @@
 import os
 
-# Define the canonical URL if you are using a custom domain on Read the Docs
+project = "EncrypIT"
+author = "Robert H. Osborne"
+copyright = "2026, Robert H. Osborne"
+
+extensions = [
+    "myst_parser",
+    "sphinx_copybutton",
+]
+
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".md": "markdown",
+}
+master_doc = "index"
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+html_theme = "furo"
+html_title = "EncrypIT Documentation"
+html_logo = "img/LogoSymbol.png"
+html_favicon = "img/LogoSymbol.png"
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
 
-# Tell Jinja2 templates the build is running on Read the Docs
-if os.environ.get("READTHEDOCS", "") == "True":
-    if "html_context" not in globals():
-        html_context = {}
-    html_context["READTHEDOCS"] = True
+html_theme_options = {
+    "source_repository": "https://github.com/OsbornePro/EncrypIT/",
+    "source_branch": "main",
+    "source_directory": "docs/",
+}
 
-# Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+html_context = {
+    "display_github": True,
+    "github_user": "OsbornePro",
+    "github_repo": "EncrypIT",
+    "github_version": "main",
+    "conf_py_path": "/docs/",
+}
 
-# -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-
-project = 'EncrypIT'
-copyright = '2023, Robert H. Osborne'
-author = 'Robert H. Osborne'
-release = '2020'
-
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
-extensions = []
-
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
-
-
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-
-html_theme = 'alabaster'
-html_static_path = ['_static']
+myst_enable_extensions = ["colon_fence", "deflist", "fieldlist"]
+copybutton_prompt_text = r">>> |\.\.\. |\$ |PS> "
+copybutton_prompt_is_regexp = True
